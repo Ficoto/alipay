@@ -275,7 +275,7 @@ func NormValues(v url.Values) string {
 }
 
 // New ...
-func New(appID, publicKeyPath, privateKeyPath string) (*Alipay, error) {
+func New(appID string, pubBytes, privateBytes []byte) (*Alipay, error) {
 	alipay := Alipay{
 		appID:  appID,
 		client: client,
@@ -283,12 +283,12 @@ func New(appID, publicKeyPath, privateKeyPath string) (*Alipay, error) {
 
 	var err error
 
-	alipay.PublicKey, err = NewPublicKey(publicKeyPath)
+	alipay.PublicKey, err = NewPublicKey(pubBytes)
 	if err != nil {
 		return nil, fmt.Errorf("支付宝公钥构建失败: %w", err)
 	}
 
-	alipay.PrivateKey, err = NewPrivateKey(privateKeyPath)
+	alipay.PrivateKey, err = NewPrivateKey(privateBytes)
 	if err != nil {
 		return nil, fmt.Errorf("商户私钥构建失败: %w", err)
 	}
