@@ -297,11 +297,7 @@ func New(appID, publicKeyPath, privateKeyPath string) (*Alipay, error) {
 }
 
 // NewPublicKey publicKey参照ParsePKIXPublicKey
-func NewPublicKey(path string) (pub *rsa.PublicKey, err error) {
-	pubBytes, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
+func NewPublicKey(pubBytes []byte) (pub *rsa.PublicKey, err error) {
 	pubBlock, _ := pem.Decode(pubBytes)
 	pubInterface, err := x509.ParsePKIXPublicKey(pubBlock.Bytes)
 	if err != nil {
@@ -315,11 +311,7 @@ func NewPublicKey(path string) (pub *rsa.PublicKey, err error) {
 }
 
 // NewPrivateKey privateKey格式参照ParsePKCS1PrivateKey
-func NewPrivateKey(path string) (priKey *rsa.PrivateKey, err error) {
-	privateBytes, err := ioutil.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
+func NewPrivateKey(privateBytes []byte) (priKey *rsa.PrivateKey, err error) {
 	priBlock, _ := pem.Decode(privateBytes)
 	privateKey, err := x509.ParsePKCS1PrivateKey(priBlock.Bytes)
 	if err != nil {
